@@ -9,16 +9,32 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { callUssd } from "../api/api";
 import { useUssd } from "../context/UssdContext";
+import { SessionTypes } from "../model/UssdRequest";
 
-export interface ISessionScreenProps {}
+export interface ISessionScreenProps {
+  onMessageReceived: (text: string, url: string) => void;
+}
 
-export default function SessionScreen(props: ISessionScreenProps) {
+export default function SessionScreen({
+  onMessageReceived,
+}: ISessionScreenProps) {
   const session = useUssd();
-  const [url, setUrl] = useState("https://localhost:44356/Game/Ussd");
+  const [url, setUrl] = useState(session.url);
 
-  const onStart = () => {
-    session.setSession({ ...session, started: true, url: url });
+  const onStart = async () => {
+    try {
+      const data = await callUssd(url, {
+        Msisdn: session.msisdn,
+        SessionId: session.sessionId,
+        Message: "1",
+        SessionType: SessionTypes.NewRequest,
+      });
+      onMessageReceived(data.response, url);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

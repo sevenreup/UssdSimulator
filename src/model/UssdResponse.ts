@@ -1,6 +1,6 @@
 interface UssdResponse {
-    "Response": string,
-    "SessionType": number
+    response: string,
+    sessionType: number
 }
 
 export default UssdResponse;

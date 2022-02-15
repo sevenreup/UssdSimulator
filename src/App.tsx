@@ -1,19 +1,25 @@
+import { useState } from "react";
 import Phone from "./components/phone";
 import PhoneContent from "./components/PhoneContent";
 import SessionScreen from "./components/SessionScreen";
 import { useUssd } from "./context/UssdContext";
 
 function App() {
-  const { started } = useUssd();
-
+  const session = useUssd();
+  const [initMessage, setInitMessage] = useState("Please make a request");
   return (
     <div className="App">
-      {started ? (
+      {session.started ? (
         <Phone>
-          <PhoneContent initialText={"Please make a request"} />
+          <PhoneContent initialText={initMessage} />
         </Phone>
       ) : (
-        <SessionScreen />
+        <SessionScreen
+          onMessageReceived={(message, url) => {
+            setInitMessage(message);
+            session.setSession({ ...session, started: true, url: url });
+          }}
+        />
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { callUssd } from "../api/api";
 import { useUssd } from "../context/UssdContext";
 import { SessionTypes } from "../model/UssdRequest";
@@ -24,6 +24,12 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
   const [userInput, setUserInput] = useState("");
   const [responseText, setResponseText] = useState(initialText);
 
+  useEffect(() => {
+    console.log(initialText);
+    
+    setResponseText(initialText);
+  }, [initialText]);
+
   const onSend = async () => {
     try {
       const data = await callUssd(url, {
@@ -32,7 +38,7 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
         Message: userInput,
         SessionType: SessionTypes.Continuation,
       });
-      setResponseText(data.Response);
+      setResponseText(data.response);
     } catch (error) {
       console.log(error);
     }

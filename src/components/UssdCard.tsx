@@ -23,13 +23,9 @@ export default function UssdCard({
   return (
     <Card>
       <CardContent>
-        <Typography
-          sx={{
-            marginBottom: 2,
-          }}
-        >
-          {responseText}
-        </Typography>
+        {responseText.split("\n").map((str) => (
+          <Typography>{str}</Typography>
+        ))}
         <TextField value={input} />
       </CardContent>
       <CardActions
