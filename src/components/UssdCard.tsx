@@ -10,6 +10,7 @@ import {
 export interface IUssdCardProps {
   input: string;
   responseText: string;
+  onChange: (text: string) => void;
   onSave: () => void;
   onCancel: () => void;
 }
@@ -17,6 +18,7 @@ export interface IUssdCardProps {
 export default function UssdCard({
   input,
   responseText,
+  onChange,
   onSave,
   onCancel,
 }: IUssdCardProps) {
@@ -24,19 +26,29 @@ export default function UssdCard({
     <Card>
       <CardContent>
         {responseText.split("\n").map((str) => (
-          <Typography key={str}>{str}</Typography>
+          <Typography key={str} variant="caption" display="block">
+            {str}
+          </Typography>
         ))}
-        <TextField value={input} />
+        <TextField
+          value={input}
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
+          sx={{ marginTop: 1 }}
+          size="small"
+        />
       </CardContent>
       <CardActions
         sx={{
           justifyContent: "space-between",
+          padding: "0 10px",
         }}
       >
-        <Button variant="text" onClick={onCancel}>
+        <Button variant="text" onClick={onCancel} size="small">
           Cancel
         </Button>
-        <Button variant="text" onClick={onSave}>
+        <Button variant="text" onClick={onSave} size="small">
           Send
         </Button>
       </CardActions>

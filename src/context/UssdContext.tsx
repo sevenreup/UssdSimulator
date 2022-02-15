@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 
 const defaultState: Session = {
   started: false,
-  url: "https://localhost:44356/Game/Ussd",
+  url: "https://localhost:44356/Mpamba/Ussd",
   sessionId: "12345",
   msisdn: "265997655406",
   setSession: () => {},

@@ -13,7 +13,11 @@ const Container = styled.div`
   justify-content: end;
 `;
 
-const UssdContainer = styled.div``;
+const UssdContainer = styled.div`
+  margin-bottom: 6px;
+  margin-right: 10px;
+  margin-left: 6px;
+`;
 
 export interface IPhoneContentProps {
   initialText: string;
@@ -26,7 +30,7 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
 
   useEffect(() => {
     console.log(initialText);
-    
+
     setResponseText(initialText);
   }, [initialText]);
 
@@ -38,6 +42,7 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
         Message: userInput,
         SessionType: SessionTypes.Continuation,
       });
+      setUserInput("");
       setResponseText(data.response);
     } catch (error) {
       console.log(error);
@@ -50,6 +55,9 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
         <UssdCard
           input={userInput}
           responseText={responseText}
+          onChange={(text) => {
+            setUserInput(text);
+          }}
           onCancel={() => {
             setStarted?.(false);
           }}

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import Keyboard from "react-simple-keyboard";
+import { useEffect, useRef, useState } from "react";
+import Keyboard, { KeyboardReactInterface } from "react-simple-keyboard";
 
 const keyboardSettings = {
   mergeDisplay: true,
@@ -46,8 +46,12 @@ export default function PhoneKeyboard({
   inputText,
 }: IPhoneKeyboardProps) {
   const [layoutName, setLayoutName] = useState("numbers");
-
-  useEffect(() => {}, [inputText]);
+  const keyboardRef = useRef<KeyboardReactInterface | null>(null);
+  useEffect(() => {
+    if (keyboardRef) {
+      keyboardRef.current?.setInput(inputText);
+    }
+  }, [inputText, keyboardRef]);
 
   const onChange = (input: string, e?: MouseEvent) => {
     onTextChange(input);
@@ -69,6 +73,9 @@ export default function PhoneKeyboard({
 
   return (
     <Keyboard
+      keyboardRef={(r) => {
+        keyboardRef.current = r;
+      }}
       {...keyboardSettings}
       onChange={onChange}
       onKeyPress={onKeyPress}
