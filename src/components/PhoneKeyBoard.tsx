@@ -45,10 +45,10 @@ export default function PhoneKeyboard({
   onTextChange,
   inputText,
 }: IPhoneKeyboardProps) {
-  const [layoutName, setLayoutName] = useState("default");
+  const [layoutName, setLayoutName] = useState("numbers");
 
   useEffect(() => {}, [inputText]);
-  
+
   const onChange = (input: string, e?: MouseEvent) => {
     onTextChange(input);
   };

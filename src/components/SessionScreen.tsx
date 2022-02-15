@@ -45,10 +45,13 @@ export default function SessionScreen({
         placeItems: "center",
       }}
     >
-      <Card>
+      <Card sx={{ minWidth: "60%" }}>
         <CardContent>
-          <Typography variant="h5" component="div">
-            Angle Dimensions USSD simulator
+          <Box sx={{ padding: 4, display: "flex", justifyContent: "center" }}>
+            <img src="/logo.png" alt="Ad Logo" width={120} />
+          </Box>
+          <Typography variant="h5" component="div" textAlign="center">
+            USSD simulator
           </Typography>
           <Box sx={{ marginTop: 4 }}>
             <TextField
@@ -61,10 +64,12 @@ export default function SessionScreen({
               }}
             />
           </Box>
+          <Box marginTop={2}>
+            <Button onClick={onStart} variant="contained" fullWidth>
+              Start
+            </Button>
+          </Box>
         </CardContent>
-        <CardActions>
-          <Button onClick={onStart}>Start</Button>
-        </CardActions>
       </Card>
     </Container>
   );

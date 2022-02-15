@@ -24,7 +24,7 @@ export default function UssdCard({
     <Card>
       <CardContent>
         {responseText.split("\n").map((str) => (
-          <Typography>{str}</Typography>
+          <Typography key={str}>{str}</Typography>
         ))}
         <TextField value={input} />
       </CardContent>

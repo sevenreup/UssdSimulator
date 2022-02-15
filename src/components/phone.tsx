@@ -37,7 +37,7 @@ const Frame = styled.div`
   position: absolute;
   z-index: 2;
   pointer-events: none;
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/frameIphone.png");
+  background: url("/frameIphone.png");
 `;
 
 const Screen = styled.div`
