@@ -1,12 +1,11 @@
 import axios from "axios";
+import { UssdRequest } from "../model/UssdRequest";
+import UssdResponse from "../model/UssdResponse";
 
-const api = axios.create({
-    baseURL: ""
-})
 
-const postUssd = async (data: any) => {
-    const response = await api.post('', data);
-    return response.data;
+const callUssd = async (url: string, data: UssdRequest) => {
+    const response = await axios.post(url, data);
+    return response.data as UssdResponse;
 }
 
-export { postUssd }
+export { callUssd }
