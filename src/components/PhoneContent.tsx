@@ -8,9 +8,12 @@ import UssdCard from "./UssdCard";
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  position: relative;
   height: 100%;
+  flex-direction: column;
   justify-content: end;
+  border-radius: 19px;
+  overflow: hidden;
 `;
 
 const UssdContainer = styled.div`

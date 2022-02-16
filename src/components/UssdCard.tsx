@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import {
   Button,
   Card,
@@ -15,6 +16,12 @@ export interface IUssdCardProps {
   onCancel: () => void;
 }
 
+const CardHolder = styled(CardContent)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
 export default function UssdCard({
   input,
   responseText,
@@ -24,7 +31,7 @@ export default function UssdCard({
 }: IUssdCardProps) {
   return (
     <Card>
-      <CardContent>
+      <CardHolder sx={{}}>
         {responseText.split("\n").map((str) => (
           <Typography key={str} variant="caption" display="block">
             {str}
@@ -38,7 +45,7 @@ export default function UssdCard({
           sx={{ marginTop: 1 }}
           size="small"
         />
-      </CardContent>
+      </CardHolder>
       <CardActions
         sx={{
           justifyContent: "space-between",

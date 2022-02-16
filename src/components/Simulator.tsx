@@ -8,13 +8,10 @@ export interface ISimulatorProps {
 
 export default function Simulator({ initMessage }: ISimulatorProps) {
   return (
-    <div>
-      <Box sx={{ padding: 1, display: "flex", justifyContent: "center" }}>
-        <img src="/logo.png" alt="Ad Logo" width={120} />
-      </Box>
+    <Box sx={{ display: "grid", justifyContent: "center", height: "100vh" }}>
       <Phone>
         <PhoneContent initialText={initMessage} />
       </Phone>
-    </div>
+    </Box>
   );
 }

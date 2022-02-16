@@ -1,72 +1,43 @@
 import styled from "@emotion/styled";
 import { ReactNode } from "react";
 
-const height = 489;
-const width = 245;
-const perspective = 900;
-
-const globalTransitionmTime = ".5s";
-const globalTransitionEasing = "cubic-bezier(0.615, 0.000, 0.280, 1.005)";
-
 const Case = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
+  --c-width: 287px;
+  display: block;
+  background-color: #000;
+  background-size: auto 101%, cover;
+  background-repeat: no-repeat, no-repeat;
+  border: solid #111;
+  position: relative;
   margin: auto;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 24px;
-  width: ${width}px;
-  height: ${height}px;
-  perspective: ${perspective};
-  border-radius: 24px;
-  overflow: hidden;
-  border-radius: 40px;
-  box-shadow: 0 0 40px 10px rgba(0, 0, 0, 0.3);
-  -webkit-box-reflect: below 4px
-    linear-gradient(
-      to top,
-      rgba(255, 255, 255, 1) -120%,
-      rgba(255, 255, 255, 0) 25%
-    );
-`;
-
-const Frame = styled.div`
-  width: ${width}px;
-  height: ${height}px;
-  position: absolute;
-  z-index: 2;
-  pointer-events: none;
-  background: url("/frameIphone.png");
-`;
-
-const Screen = styled.div`
-  width: ${width - 20}px;
-  height: ${height - 14}px;
-  position: relative;
-  left: 10px;
-  top: 6px;
-  overflow: hidden;
-  transform-style: preserve-3D;
-  background: #ada59c;
-`;
-
-const ScreenViewPort = styled.div`
-  transform-style: preserve-3D;
-  height: 100%;
-  width: 100%;
-  position: relative;
-  left: 0;
-  transition: all ${globalTransitionmTime} + 0.009s ${globalTransitionEasing};
+  box-shadow: 0 0.5em 2em 0.2em rgba(0, 0, 0, 0.33), 0 0 0 0.5px #000 inset;
+  transition: all 0.1s linear, line-height 0s linear;
+  background-position: 50% 100%, center;
+  transform-origin: bottom center;
+  width: var(--c-width);
+  height: calc(2.15 * var(--c-width));
+  line-height: calc(2.165 * var(--c-width));
+  border-width: calc(var(--c-width) / 15.625);
+  border-radius: calc(var(--c-width) / 5.86);
+  background-color: aliceblue;
+  background-image: linear-gradient(rgba(0, 0, 0, 0), #111),
+    url("./angle_wallpaper-01.png");
+  z-index: 200;
+  -webkit-box-reflect: below 4px linear-gradient(to top, white -120%, rgba(255, 255, 255, 0) 25%);
+  &:before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 30px;
+    width: 200px;
+    border-radius: 0 0 16px 16px;
+    background: #000;
+  }
 `;
 
 export default function Phone({ children }: { children: ReactNode }) {
-  return (
-    <Case>
-      <Frame></Frame>
-      <Screen>
-        <ScreenViewPort>{children}</ScreenViewPort>
-      </Screen>
-    </Case>
-  );
+  return <Case>{children}</Case>;
 }
