@@ -1,7 +1,6 @@
 import { useState } from "react";
-import Phone from "./components/phone";
-import PhoneContent from "./components/PhoneContent";
 import SessionScreen from "./components/SessionScreen";
+import Simulator from "./components/Simulator";
 import { useUssd } from "./context/UssdContext";
 
 function App() {
@@ -10,9 +9,7 @@ function App() {
   return (
     <div className="App">
       {session.started ? (
-        <Phone>
-          <PhoneContent initialText={initMessage} />
-        </Phone>
+        <Simulator initMessage={initMessage} />
       ) : (
         <SessionScreen
           onMessageReceived={(message, url) => {
