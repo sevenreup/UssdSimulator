@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import Phone from "./phone";
-import PhoneContent from "./PhoneContent";
+import Phone from "../../components/phone";
+import PhoneContent from "../../components/PhoneContent";
 
 export interface ISimulatorProps {
   initMessage: string;

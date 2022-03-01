@@ -8,9 +8,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { callUssd } from "../api/api";
-import { useUssd } from "../context/UssdContext";
-import { SessionTypes } from "../model/UssdRequest";
+import { callUssd } from "../../api/api";
+import { useUssd } from "../../context/UssdContext";
+import { SessionTypes } from "../../model/UssdRequest";
 
 export interface ISessionScreenProps {
   onMessageReceived: (text: string, url: string) => void;

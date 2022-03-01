@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import Simulator from "../components/Simulator";
+import Simulator from "./Simulator";
 
 export default function SimulatorPage() {
   const [searchParams] = useSearchParams();

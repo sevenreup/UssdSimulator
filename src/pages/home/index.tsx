@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useUssd } from "../context/UssdContext";
-import SessionScreen from "../components/SessionScreen";
+import { useUssd } from "../../context/UssdContext";
+import SessionScreen from "./SessionScreen";
 import { generatePath, useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
 
 export interface IHomePageProps {}
 
@@ -30,13 +31,18 @@ export default function HomePage(props: IHomePageProps) {
 
   return (
     <div className="App">
-      <SessionScreen
-        onMessageReceived={(message, url) => {
-          setInitMessage(message);
-          session.setCurrentUrl?.(url);
-          session.setSession({ ...session, started: true });
-        }}
-      />
+      <Grid container>
+        <Grid item xs={4}>
+          <SessionScreen
+            onMessageReceived={(message, url) => {
+              setInitMessage(message);
+              session.setCurrentUrl?.(url);
+              session.setSession({ ...session, started: true });
+            }}
+          />
+        </Grid>
+        <Grid item xs={8}></Grid>
+      </Grid>
     </div>
   );
 }
