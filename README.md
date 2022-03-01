@@ -35,4 +35,4 @@ Response
 - Automated tests
   - Should create tests for automating different flows and generate reports
 - Generate screenshorts of the menus
-- should be able to acommodate other ussd response and formats formats
+- should be able to acommodate other ussd response and request formats
