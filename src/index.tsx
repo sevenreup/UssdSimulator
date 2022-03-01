@@ -5,11 +5,14 @@ import "react-simple-keyboard/build/css/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UssdProvider } from "./context/UssdContext";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
     <UssdProvider>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </UssdProvider>
   </React.StrictMode>,
   document.getElementById("root")

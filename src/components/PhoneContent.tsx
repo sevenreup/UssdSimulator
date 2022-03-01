@@ -27,7 +27,10 @@ export interface IPhoneContentProps {
 }
 
 export default function PhoneContent({ initialText }: IPhoneContentProps) {
-  const { setStarted, url, msisdn, sessionId } = useUssd();
+  const {
+    setStarted,
+    data: { url, msisdn, sessionId },
+  } = useUssd();
   const [userInput, setUserInput] = useState("");
   const [responseText, setResponseText] = useState(initialText);
 

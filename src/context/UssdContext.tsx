@@ -1,19 +1,23 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import Datastore from "../local/DataStore";
+import AppData from "../model/appdata";
 
 const defaultState: Session = {
   started: false,
-  url: "https://localhost:44356/Mpamba/Ussd",
-  sessionId: "12345",
-  msisdn: "265997655406",
+  data: Datastore.getData(),
   setSession: () => {},
 };
 
 interface Session {
   started: boolean;
   ended?: boolean;
-  url: string;
-  sessionId: string;
-  msisdn: string;
+  data: AppData;
   setCurrentUrl?: (text: string) => void;
   setStarted?: (value: boolean) => void;
   setSessionId?: (text: string) => void;
@@ -26,14 +30,20 @@ const UssdContext = createContext<Session>(defaultState);
 export const UssdProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session>(defaultState);
 
+  useEffect(() => {
+    window.onstorage = (event) => {
+      setSession({ ...session, data: Datastore.getData() });
+    };
+  }, []);
+
   const setCurrentUrl = (url: string) => {
-    setSession({ ...session, url: url });
+    Datastore.set("url", url);
   };
   const setStarted = (value: boolean) => {
     setSession({ ...session, started: value });
   };
   const setSessionId = (id: string) => {
-    setSession({ ...session, sessionId: id });
+    Datastore.set("sessionId", id);
   };
   const setEnded = (value: boolean) => {
     setSession({ ...session, ended: value });

@@ -20,13 +20,13 @@ export default function SessionScreen({
   onMessageReceived,
 }: ISessionScreenProps) {
   const session = useUssd();
-  const [url, setUrl] = useState(session.url);
+  const [url, setUrl] = useState(session.data.url);
 
   const onStart = async () => {
     try {
       const data = await callUssd(url, {
-        Msisdn: session.msisdn,
-        SessionId: session.sessionId,
+        Msisdn: session.data.msisdn,
+        SessionId: session.data.sessionId,
         Message: "1",
         SessionType: SessionTypes.NewRequest,
       });
