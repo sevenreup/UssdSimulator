@@ -18,11 +18,12 @@ interface Session {
   started: boolean;
   ended?: boolean;
   data: AppData;
-  setCurrentUrl?: (text: string) => void;
+  setAppData?: (values: any) => Promise<void>;
   setStarted?: (value: boolean) => void;
   setSessionId?: (text: string) => void;
   setEnded?: (value: boolean) => void;
   setSession: (value: Session) => void;
+  updateAppData?: () => void;
 }
 
 const UssdContext = createContext<Session>(defaultState);
@@ -32,12 +33,20 @@ export const UssdProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     window.onstorage = (event) => {
-      setSession({ ...session, data: Datastore.getData() });
+      console.log(event);
+      updateAppData();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const setCurrentUrl = (url: string) => {
-    Datastore.set("url", url);
+  const setAppData = (value: any) => {
+    return new Promise<void>((resolve, reject) => {
+      Object.keys(value).forEach((key) => {
+        Datastore.set(key, value[key]);
+      });
+      updateAppData();
+      resolve();
+    });
   };
   const setStarted = (value: boolean) => {
     setSession({ ...session, started: value });
@@ -49,15 +58,20 @@ export const UssdProvider = ({ children }: { children: ReactNode }) => {
     setSession({ ...session, ended: value });
   };
 
+  const updateAppData = () => {
+    setSession({ ...session, data: Datastore.getData() });
+  };
+
   return (
     <UssdContext.Provider
       value={{
         ...session,
-        setCurrentUrl,
+        setAppData,
         setStarted,
         setSessionId,
         setEnded,
         setSession,
+        updateAppData,
       }}
     >
       {children}

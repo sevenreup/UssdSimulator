@@ -4,7 +4,12 @@ interface AppData {
     msisdn: string;
     requestType: "xml" | "json";
     requestSample: string;
+    requestMsisdnKey: string;
+    requestSessionKey: string;
+    requestMessageKey: string;
+    requestSessionTypeKey: string;
     responseType: "xml" | "json";
+    responseMessageKey: string;
     responseSample: string;
 }
 

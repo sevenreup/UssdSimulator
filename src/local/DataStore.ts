@@ -2,13 +2,17 @@ import AppData from "../model/appdata";
 
 const sampleResponse = `
 {
-
+    "response": "string",
+    "sessionType": "12"
 }
 `;
 
 const sampleRequest = `
 {
-
+    "Msisdn": 12342,
+    "SessionId": 1212121,
+    "Message": "Jump",
+    "SessionType": "12"
 }
 `;
 
@@ -34,7 +38,12 @@ class Datastore {
             msisdn: localStorage.getItem("msisdn") ?? "265997655406",
             responseType: localStorage.getItem("responseType") as any ?? "json",
             responseSample: localStorage.getItem("responseSample") ?? sampleResponse,
+            responseMessageKey: localStorage.getItem("responseMessageKey") ?? "message",
+            requestMsisdnKey: localStorage.getItem("requestMsisdnKey") ?? "msidnKey",
+            requestSessionKey: localStorage.getItem("requestSessionKey") ?? "sessionKey",
+            requestSessionTypeKey: localStorage.getItem("requestSessionTypeKey") ?? "sessionTypeKey",
             requestType: localStorage.getItem("requestType") as any ?? "json",
+            requestMessageKey: localStorage.getItem("requestMessageKey") ?? "message",
             requestSample: localStorage.getItem("requestSample") ?? sampleRequest
         }
     }
