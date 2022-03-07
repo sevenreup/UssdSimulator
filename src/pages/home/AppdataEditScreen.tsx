@@ -1,7 +1,8 @@
-import { Box, Tabs, Tab, Typography, TextField, Button } from "@mui/material";
+import { Box, Tabs, Tab } from "@mui/material";
 import { useState } from "react";
-import ValueEditor from "../../components/settings/Editor";
-import { useUssd } from "../../context/UssdContext";
+import GeneralSettings from "../../components/settings/GeneralSettings";
+import RequestSettings from "../../components/settings/RequestSettings";
+import ResponseSettings from "../../components/settings/ResponseSettings";
 
 export interface IAppdataEditScreenProps {}
 
@@ -22,11 +23,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -37,97 +34,6 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
-const GeneralSettings = () => {
-  const { data } = useUssd();
-
-  const [url, setUrl] = useState(data.url);
-  const [sessionID, setSessionID] = useState(data.sessionId);
-
-  const save = () => {};
-  return (
-    <Box>
-      <Box sx={{ width: "100%" }}>
-        <TextField
-          label="USSD Url"
-          fullWidth
-          margin="normal"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />
-        <TextField
-          label="Session ID"
-          fullWidth
-          margin="normal"
-          value={sessionID}
-          onChange={(e) => setSessionID(e.target.value)}
-        />
-      </Box>
-      <Box height={10} />
-      <Button variant="contained" onClick={save}>
-        Save
-      </Button>
-    </Box>
-  );
-};
-
-const RequestSettings = () => {
-  const { data, setAppData } = useUssd();
-  const onSave = async (value: string, type: string, extra: any) => {
-    console.log({ value, type, extra });
-    try {
-      await setAppData?.({
-        requestType: type,
-        requestSample: value,
-        ...extra,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  return (
-    <div>
-      <ValueEditor
-        type={data.requestType}
-        value={data.requestSample}
-        onSave={onSave}
-        savedKeys={{
-          requestMessageKey: data.requestMessageKey,
-          requestMsisdnKey: data.requestMsisdnKey,
-          requestSessionKey: data.requestSessionKey,
-          requestSessionTypeKey: data.requestSessionTypeKey,
-        }}
-      />
-    </div>
-  );
-};
-
-const ResponseSettings = () => {
-  const { data, setAppData } = useUssd();
-  const onSave = (value: string, type: string, extra: any) => {
-    console.log({ value, type, extra });
-    try {
-      setAppData?.({
-        responseType: type,
-        responseSample: value,
-        ...extra,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  return (
-    <div>
-      <ValueEditor
-        type={data.responseType}
-        value={data.responseSample}
-        onSave={onSave}
-        savedKeys={{ responseMessageKey: data.responseMessageKey }}
-      />
-    </div>
-  );
-};
 
 export default function AppdataEditScreen(props: IAppdataEditScreenProps) {
   const [value, setValue] = useState(0);

@@ -36,15 +36,20 @@ class Datastore {
             url: localStorage.getItem("url") ?? "https://localhost:44356/Mpamba/Ussd",
             sessionId: localStorage.getItem("sessionId") ?? "12345",
             msisdn: localStorage.getItem("msisdn") ?? "265997655406",
+
+            // Response config retrival
             responseType: localStorage.getItem("responseType") as any ?? "json",
             responseSample: localStorage.getItem("responseSample") ?? sampleResponse,
             responseMessageKey: localStorage.getItem("responseMessageKey") ?? "message",
+            responseSessionTypeKey: localStorage.getItem("responseSessionTypeKey") ?? "0",
+
+            // Request config retrival
             requestMsisdnKey: localStorage.getItem("requestMsisdnKey") ?? "msidnKey",
             requestSessionKey: localStorage.getItem("requestSessionKey") ?? "sessionKey",
             requestSessionTypeKey: localStorage.getItem("requestSessionTypeKey") ?? "sessionTypeKey",
             requestType: localStorage.getItem("requestType") as any ?? "json",
             requestMessageKey: localStorage.getItem("requestMessageKey") ?? "message",
-            requestSample: localStorage.getItem("requestSample") ?? sampleRequest
+            requestSample: localStorage.getItem("requestSample") ?? sampleRequest,
         }
     }
 }

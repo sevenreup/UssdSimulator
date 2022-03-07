@@ -1,7 +1,6 @@
 import { Box, Button, CardContent, Container, Typography } from "@mui/material";
-import { callUssd } from "../../api/api";
+import { callInitUssd } from "../../api/api";
 import { useUssd } from "../../context/UssdContext";
-import { SessionTypes } from "../../model/UssdRequest";
 
 export interface ISessionScreenProps {
   onMessageReceived: (text: string) => void;
@@ -14,12 +13,7 @@ export default function SessionScreen({
 
   const onStart = async () => {
     try {
-      const data = await callUssd(session.data.url, {
-        Msisdn: session.data.msisdn,
-        SessionId: session.data.sessionId,
-        Message: "1",
-        SessionType: SessionTypes.NewRequest,
-      });
+      const data = await callInitUssd(session.data);
       onMessageReceived(data.response);
     } catch (error) {
       console.log(error);
