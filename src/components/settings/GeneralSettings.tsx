@@ -1,30 +1,34 @@
 import { Box, TextField, Button } from "@mui/material";
 import { useUssd } from "context/UssdContext";
+import { useSaveAppData } from "hooks/settings";
 import { useSnackbar } from "notistack";
+import { useEffect } from "react";
 import { useState } from "react";
 import { TextConstants } from "utils/Constants";
 
 const GeneralSettings = () => {
-  const { data, setAppData } = useUssd();
+  const { data } = useUssd();
   const { enqueueSnackbar } = useSnackbar();
   const [url, setUrl] = useState(data.url);
   const [sessionID, setSessionID] = useState(data.sessionId);
+  const { refetch, error, isSuccess } = useSaveAppData({
+    url,
+    sessionId: sessionID,
+  });
 
-  const save = async () => {
-    try {
-      await setAppData?.({
-        url,
-        sessionId: sessionID,
-      });
+  useEffect(() => {
+    if (isSuccess) {
       enqueueSnackbar("Saved");
-    } catch (error) {
-      console.log(error);
+    }
+  }, [enqueueSnackbar, isSuccess]);
 
+  useEffect(() => {
+    if (error) {
       enqueueSnackbar(TextConstants.FailedToSave, {
         variant: "error",
       });
     }
-  };
+  }, [enqueueSnackbar, error]);
 
   return (
     <Box>
@@ -45,7 +49,7 @@ const GeneralSettings = () => {
         />
       </Box>
       <Box height={10} />
-      <Button variant="contained" onClick={save}>
+      <Button variant="contained" onClick={() => refetch()}>
         Save
       </Button>
     </Box>

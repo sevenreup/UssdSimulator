@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { callUssd } from "../api/api";
-import { useUssd } from "../context/UssdContext";
+import { callUssd } from "../../api/api";
+import { useUssd } from "../../context/UssdContext";
 import PhoneKeyboard from "./PhoneKeyBoard";
 import UssdCard from "./UssdCard";
 

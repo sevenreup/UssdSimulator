@@ -29,10 +29,11 @@ Response
 - Pull and run `yarn install`
 - Input the USSD url
 - Navigate through the USSD menus
-
+## Todo
+- [ ] Add simulated timeout
+- [ ] should be able to acommodate other ussd response and request formats
 ## Possible features
 
 - Automated tests
   - Should create tests for automating different flows and generate reports
 - Generate screenshorts of the menus
-- should be able to acommodate other ussd response and request formats

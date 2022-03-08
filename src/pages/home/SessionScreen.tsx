@@ -1,6 +1,9 @@
 import { Box, Button, CardContent, Container, Typography } from "@mui/material";
-import { callInitUssd } from "../../api/api";
+import { TextConstants } from "utils/Constants";
 import { useUssd } from "../../context/UssdContext";
+import { useSnackbar } from "notistack";
+import { useInitUssdCall } from "api";
+import { useEffect } from "react";
 
 export interface ISessionScreenProps {
   onMessageReceived: (text: string) => void;
@@ -10,15 +13,22 @@ export default function SessionScreen({
   onMessageReceived,
 }: ISessionScreenProps) {
   const session = useUssd();
+  const { enqueueSnackbar } = useSnackbar();
+  const { error, data, isSuccess, refetch } = useInitUssdCall(session.data);
 
-  const onStart = async () => {
-    try {
-      const data = await callInitUssd(session.data);
-      onMessageReceived(data.response);
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (isSuccess && data !== undefined) {
+      onMessageReceived(data!.response);
     }
-  };
+  }, [isSuccess, data, onMessageReceived]);
+
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(TextConstants.FailedToStartSession, {
+        variant: "error",
+      });
+    }
+  }, [enqueueSnackbar, error]);
 
   return (
     <Container
@@ -37,7 +47,13 @@ export default function SessionScreen({
         </Typography>
 
         <Box marginTop={2}>
-          <Button onClick={onStart} variant="contained" fullWidth>
+          <Button
+            onClick={() => {
+              refetch();
+            }}
+            variant="contained"
+            fullWidth
+          >
             Start
           </Button>
         </Box>
