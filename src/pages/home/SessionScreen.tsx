@@ -17,6 +17,8 @@ export default function SessionScreen({
   const { error, data, isSuccess, refetch } = useInitUssdCall(session.data);
 
   useEffect(() => {
+    console.log(data);
+
     if (isSuccess && data !== undefined) {
       onMessageReceived(data!.response);
     }

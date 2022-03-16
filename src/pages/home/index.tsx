@@ -26,7 +26,7 @@ export default function HomePage(props: IHomePageProps) {
 
   useEffect(() => {
     if (session.started) {
-      navigate(`/simulator?`, `message=${initMessage}`);
+      navigate(`/simulator`, `message=${initMessage}`);
     }
   }, [session, navigate, initMessage]);
 
