@@ -19,7 +19,6 @@ export interface IEditorProps {
   value: string;
   savedKeys?: any;
   onSave: (value: string, type: string, extra?: any | null) => void;
-  extraValues?: (dataKeys: string[]) => React.ReactNode;
 }
 
 export default function ValueEditor({

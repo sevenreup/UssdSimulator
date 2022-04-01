@@ -1,6 +1,5 @@
 import { Box, Button, CardContent, Container, Typography } from "@mui/material";
 import { TextConstants } from "utils/Constants";
-import { useUssd } from "../../context/UssdContext";
 import { useSnackbar } from "notistack";
 import { useInitUssdCall } from "api";
 import { useEffect } from "react";
@@ -12,17 +11,16 @@ export interface ISessionScreenProps {
 export default function SessionScreen({
   onMessageReceived,
 }: ISessionScreenProps) {
-  const session = useUssd();
   const { enqueueSnackbar } = useSnackbar();
-  const { error, data, isSuccess, refetch } = useInitUssdCall(session.data);
+  const { error, data, status, refetch } = useInitUssdCall();
 
   useEffect(() => {
-    console.log(data);
+    console.log({data, status});
 
-    if (isSuccess && data !== undefined) {
+    if (status === "success") {
       onMessageReceived(data!.response);
     }
-  }, [isSuccess, data, onMessageReceived]);
+  }, [data, onMessageReceived, status]);
 
   useEffect(() => {
     if (error) {

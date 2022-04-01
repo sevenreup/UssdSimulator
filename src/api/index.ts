@@ -1,17 +1,19 @@
-import AppData from "model/appdata"
-import UssdResponse from "model/UssdResponse"
+import { useUssd } from "context/UssdContext"
 import { useQuery } from "react-query"
 import { callInitUssd, callUssd } from "./api"
 
-const useInitUssdCall = (appdata: AppData) => {
-    return useQuery<UssdResponse, Error>("init", async () => await callInitUssd(appdata), { retry: false })
+const useUssdCall = (message: string) => {
+    const { generalConfig, responseConfig, requestConfig } = useUssd();
+
+    return useQuery("save_settings", async () => await callUssd(generalConfig, requestConfig, responseConfig, message), { retry: false })
 }
 
-const useUssdCall = (appdata: AppData, message: any) => {
-    return useQuery<UssdResponse, Error>(`${message}_call`, async () => callUssd(appdata, message), {
-        retry: false
-    })
+const useInitUssdCall = () => {
+    const { generalConfig, responseConfig, requestConfig } = useUssd();
+
+    return useQuery("save_settings", async () => await callInitUssd(generalConfig, requestConfig, responseConfig), { retry: false })
 }
+
 
 export {
     useInitUssdCall,

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
+import { useUssdCall } from "api";
 import { useEffect, useState } from "react";
-import { callUssd } from "../../api/api";
 import { useUssd } from "../../context/UssdContext";
 import PhoneKeyboard from "./PhoneKeyBoard";
 import UssdCard from "./UssdCard";
@@ -29,6 +29,7 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
   const [userInput, setUserInput] = useState("");
   const [responseText, setResponseText] = useState(initialText);
   const session = useUssd();
+  const { refetch, data, status, error } = useUssdCall(userInput);
   const { setStarted } = session;
 
   useEffect(() => {
@@ -37,15 +38,14 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
     setResponseText(initialText);
   }, [initialText]);
 
-  const onSend = async () => {
-    try {
-      const data = await callUssd(session.data, userInput);
+  useEffect(() => {
+    if (status === "success") {
       setUserInput("");
-      setResponseText(data.response);
-    } catch (error) {
+      setResponseText(data?.response!);
+    } else if (status === "error") {
       console.log(error);
     }
-  };
+  }, [data, status, error]);
 
   return (
     <Container>
@@ -59,7 +59,7 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
           onCancel={() => {
             setStarted?.(false);
           }}
-          onSave={onSend}
+          onSave={() => refetch()}
         />
       </UssdContainer>
       <PhoneKeyboard
@@ -71,3 +71,4 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
     </Container>
   );
 }
+

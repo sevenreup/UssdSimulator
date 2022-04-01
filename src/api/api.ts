@@ -1,27 +1,31 @@
 import axios from "axios";
 import { XMLBuilder, XMLParser } from "fast-xml-parser";
-import AppData from "../model/appdata";
+import { GeneralConfig, RequestConfig, ResponseConfig } from "model/configs";
 import UssdResponse from "../model/UssdResponse";
 
 
-const callUssdApi = async (appdata: AppData, data: any) => {
-    const response = await axios.post(appdata.url, data);
-    return parseResponse(appdata, response.data);
+const callUssdApi = async (general: GeneralConfig, response: ResponseConfig, params?: any, data?: any) => {
+    const apiResponse = await axios.post(general.url, data, { params: params });
+    return parseResponse(response, apiResponse.data);
 }
 
-const callInitUssd = async (appdata: AppData) => {
-    const requestBody = createRequest(appdata, "0", "1");
-    console.log(requestBody);
-    return await callUssdApi(appdata, requestBody);
+const callInitUssd = async (general: GeneralConfig, request: RequestConfig, response: ResponseConfig) => {
+    return await callUssd(general, request, response, "0", "1");
 }
 
-const callUssd = async (appdata: AppData, message: any) => {
-    const requestBody = createRequest(appdata, message, "2");
-    console.log(requestBody);
-    return await callUssdApi(appdata, requestBody);
+const callUssd = async (general: GeneralConfig, request: RequestConfig, response: ResponseConfig, message: any, sessionType: any = "2") => {
+    if (request.requestLocation === "body") {
+        const requestBody = createRequestBody(general, request, message, sessionType);
+        return await callUssdApi(general, response, null, requestBody);
+    } else {
+        const data = createRequestQuery(general, request, message, sessionType);
+        return await callUssdApi(general, response, data, null);
+    }
 }
 
-function createRequest({ requestSample, requestType, requestMsisdnKey, requestMessageKey, requestSessionTypeKey, msisdn, sessionId, requestSessionKey }: AppData, message: string, sessionType: string) {
+function createRequestBody(general: GeneralConfig, request: RequestConfig, message: string, sessionType: string) {
+    const { requestSample, requestType, requestMsisdnKey, requestMessageKey, requestSessionTypeKey, requestSessionKey } = request;
+    const { msisdn, sessionId } = general;
 
     let requestBody;
 
@@ -55,7 +59,17 @@ function createRequest({ requestSample, requestType, requestMsisdnKey, requestMe
     return requestBody;
 }
 
-function parseResponse({ responseMessageKey, responseSessionTypeKey, responseType }: AppData, data: any): UssdResponse {
+function createRequestQuery(general: GeneralConfig, request: RequestConfig, message: string, sessionType: string) {
+    const data: { [key: string]: any } = {};
+    data[request.requestMessageKey] = message;
+    data[request.requestSessionTypeKey] = sessionType;
+    data[request.requestMsisdnKey] = general.msisdn;
+    data[request.requestSessionKey] = general.sessionId;
+
+    return data;
+}
+
+function parseResponse({ responseMessageKey, responseSessionTypeKey, responseType }: ResponseConfig, data: any): UssdResponse {
     if (responseType === "xml") {
         const options = {
             ignoreDeclaration: true,
