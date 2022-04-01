@@ -1,9 +1,18 @@
 import styled from "@emotion/styled";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import { useUssdCall } from "api";
 import { useEffect, useState } from "react";
 import { useUssd } from "../../context/UssdContext";
 import PhoneKeyboard from "./PhoneKeyBoard";
 import UssdCard from "./UssdCard";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -28,9 +37,11 @@ export interface IPhoneContentProps {
 export default function PhoneContent({ initialText }: IPhoneContentProps) {
   const [userInput, setUserInput] = useState("");
   const [responseText, setResponseText] = useState(initialText);
+  const [closeDialog, setCloseDialog] = useState(false);
   const session = useUssd();
   const { refetch, data, status, error } = useUssdCall(userInput);
   const { setStarted } = session;
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(initialText);
@@ -49,6 +60,26 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
 
   return (
     <Container>
+      <Dialog open={closeDialog} onClose={() => setCloseDialog(false)}>
+        <DialogTitle>End Session</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to end session?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setCloseDialog(false)}>Cancel</Button>
+          <Button
+            onClick={() => {
+              setStarted?.(false);
+              navigate("/");
+            }}
+            autoFocus
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
       <UssdContainer>
         <UssdCard
           input={userInput}
@@ -57,7 +88,7 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
             setUserInput(text);
           }}
           onCancel={() => {
-            setStarted?.(false);
+            setCloseDialog(true);
           }}
           onSave={() => refetch()}
         />
@@ -71,4 +102,3 @@ export default function PhoneContent({ initialText }: IPhoneContentProps) {
     </Container>
   );
 }
-

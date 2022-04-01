@@ -12,11 +12,11 @@ const update = async (db: PouchDB.Database<any>, id: string, request: any) => {
             ...doc,
             ...request,
         }
-        console.log(newDoc);
-        
+        console.log({ request, newDoc });
+
         await db.put(newDoc) // And put the new version into the database.
         console.log("Updated");
-        
+
     } catch (err: any) {
         console.log(err);
 

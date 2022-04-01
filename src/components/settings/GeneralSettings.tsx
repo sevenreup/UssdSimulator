@@ -13,13 +13,23 @@ const GeneralSettings = () => {
   const [url, setUrl] = useState(generalConfig.url);
   const [sessionId, setSessionId] = useState(generalConfig.sessionId);
   const [msisdn, setMsisdn] = useState(generalConfig.msisdn);
+  const [timeout, setTimeout] = useState(generalConfig.timeout.toString());
 
   const save = () => {
-    mutate({
-      url,
-      sessionId,
-      msisdn,
-    });
+    if (timeout === "") {
+      enqueueSnackbar("Timeout not a valid number", {
+        variant: "error",
+      });
+    } else {
+      const value = Number.parseInt(timeout);
+
+      mutate({
+        url,
+        sessionId,
+        msisdn,
+        timeout: value,
+      });
+    }
   };
 
   useEffect(() => {
@@ -64,6 +74,16 @@ const GeneralSettings = () => {
           margin="normal"
           value={sessionId}
           onChange={(e) => setSessionId(e.target.value)}
+        />
+        <TextField
+          label="Timeout"
+          fullWidth
+          margin="normal"
+          type="number"
+          value={timeout}
+          onChange={(e) => {
+            setTimeout(e.target.value);
+          }}
         />
       </Box>
       <Box height={10} />

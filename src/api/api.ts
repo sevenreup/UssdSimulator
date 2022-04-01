@@ -1,11 +1,17 @@
 import axios from "axios";
 import { XMLBuilder, XMLParser } from "fast-xml-parser";
 import { GeneralConfig, RequestConfig, ResponseConfig } from "model/configs";
+import { Method } from "model/general";
 import UssdResponse from "../model/UssdResponse";
 
 
-const callUssdApi = async (general: GeneralConfig, response: ResponseConfig, params?: any, data?: any) => {
-    const apiResponse = await axios.post(general.url, data, { params: params });
+const callUssdApi = async (general: GeneralConfig, method: Method, response: ResponseConfig, params?: any, data?: any) => {
+    const apiResponse = await axios({
+        method: method,
+        url: general.url,
+        data: data,
+        params: params
+    });
     return parseResponse(response, apiResponse.data);
 }
 
@@ -16,10 +22,10 @@ const callInitUssd = async (general: GeneralConfig, request: RequestConfig, resp
 const callUssd = async (general: GeneralConfig, request: RequestConfig, response: ResponseConfig, message: any, sessionType: any = "2") => {
     if (request.requestLocation === "body") {
         const requestBody = createRequestBody(general, request, message, sessionType);
-        return await callUssdApi(general, response, null, requestBody);
+        return await callUssdApi(general, request.requestMethod, response, null, requestBody);
     } else {
         const data = createRequestQuery(general, request, message, sessionType);
-        return await callUssdApi(general, response, data, null);
+        return await callUssdApi(general, request.requestMethod, response, data, null);
     }
 }
 

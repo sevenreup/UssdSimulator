@@ -27,12 +27,14 @@ export const generalDocSample: GeneralConfig = {
   url: "https://localhost:44356/Mpamba/Ussd",
   sessionId: "12345",
   msisdn: "265997655406",
+  timeout: 6000
 };
 
 export const requestDocSample: RequestConfig = {
   requestLocation: "body",
   requestMsisdnKey: "msidnKey",
   requestSessionKey: "sessionKey",
+  requestMethod: "POST",
   requestSessionTypeKey: "sessionTypeKey",
   requestType: "json",
   requestMessageKey: "message",
@@ -54,7 +56,7 @@ export const useGetAllConfigs = () => {
 };
 
 export const useGetGeneralDoc = () => {
-  return useDoc<GeneralConfig>(ConfigKeys.general, undefined, generalDocSample);
+  return useDoc<GeneralConfig>(ConfigKeys.general, undefined);
 };
 
 export const useGetResponseDoc = () => {

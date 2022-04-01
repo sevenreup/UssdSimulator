@@ -1,7 +1,10 @@
+import { Method } from "./general";
+
 interface GeneralConfig {
     url: string;
     sessionId: string;
     msisdn: string;
+    timeout: number;
 }
 
 interface ResponseConfig {
@@ -14,6 +17,7 @@ interface ResponseConfig {
 interface RequestConfig {
     requestLocation: "body" | "query";
     requestType: "xml" | "json";
+    requestMethod: Method;
     requestSample: string;
     requestMsisdnKey: string;
     requestSessionKey: string;
