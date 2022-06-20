@@ -1,0 +1,12 @@
+{
+  "name": "ussdsimulator",
+  "outputfilename": "ussdsimulator",
+  "frontend:install": "pnpm install",
+  "frontend:build": "pnpm run build",
+  "frontend:dev:watcher": "pnpm run dev",
+  "frontend:dev:serverUrl": "http://localhost:3000",
+  "author": {
+    "name": "Christopher Phiri",
+    "email": ""
+  }
+}

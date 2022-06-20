@@ -1,39 +1,15 @@
-# USSD Emulator
+# README
 
-This is a simple utility for testing USSD applications.
+## About
 
-PS. 😅😅 Did not want to use postman for testing the ussd.
+This is the official Wails React-TS template.
 
-## USSD Response and Requests
+## Live Development
 
-Request
-```json
-{
-  "Msisdn": "26588888888",
-  "SessionId": "674287823",
-  "Message": "Test message",
-  "SessionType": "1"
-}
-```
+To run in live development mode, run `wails dev` in the project directory. In another terminal, go into the `frontend`
+directory and run `npm run dev`. The frontend dev server will run on http://localhost:34115. Connect to this in your
+browser and connect to your application.
 
-Response
-```json
-{
-    "Response": "Welcome menu",
-    "SessionType": "2"
-}
-```
+## Building
 
-## Usage
-
-- Pull and run `yarn install`
-- Input the USSD url
-- Navigate through the USSD menus
-## Todo
-- [ ] Add simulated timeout
-- [ ] should be able to acommodate other ussd response and request formats
-## Possible features
-
-- Automated tests
-  - Should create tests for automating different flows and generate reports
-- Generate screenshorts of the menus
+To build a redistributable, production mode package, use `wails build`.
