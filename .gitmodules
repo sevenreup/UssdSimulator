@@ -1,0 +1,3 @@
+[submodule "vendor/dialoguss"]
+	path = vendor/dialoguss
+	url = git@github.com:sevenreup/dialoguss.git
